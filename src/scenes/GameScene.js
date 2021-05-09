@@ -21,12 +21,13 @@ export default class GameScene extends Phaser.Scene {
     redm;
     bluem;
     greenm;
-    score = 0;
+    score;
     scoreField;
     velocityFromRotation = Phaser.Physics.Arcade.ArcadePhysics.prototype.velocityFromRotation;
     constructor() {
         super('game-scene')
         this.laserGroup;
+        this.score=0;
     }
 
     preload() {
@@ -39,10 +40,15 @@ export default class GameScene extends Phaser.Scene {
         this.load.image("red", "/red.png");
         this.load.image("green", "/green.png");
         this.load.image("blue", "/blue.png");
+        
+        this.load.image("redb", "/button1.png");
+        this.load.image("greenb", "/button2.png");
+        this.load.image("blueb", "/button3.png");
 
         this.load.image("redm", "/Red_Monster.png");
         this.load.image("greenm", "/Green_Monster.png");
         this.load.image("bluem", "/Blue_Monster.png");
+        this.load.image("scorebar", "/scorebar.png");
     }
 
     create() {
@@ -53,7 +59,13 @@ export default class GameScene extends Phaser.Scene {
         this.dude = this.physics.add.sprite(window.innerWidth / 2, window.innerHeight / 2, 'dude');
         // this.dude.setDepth(1);
         this.addEvents();
-        this.scoreField = this.add.text(30,70,`${this.score}` )
+        this.scoreBar = this.add.image(window.innerWidth / 2,40,"scorebar")
+        this.scoreBar.setScrollFactor(0);
+        this.scoreBar.setScale(0.2);
+        this.scoreField = this.add.text(window.innerWidth / 2 -30,35,`Score: ${this.score}`);
+        this.scoreField.setScrollFactor(0);
+    
+        // this.add.image(window.innerWidth / 2,window.innerHeight-309,"scorebar")
         this.physics.add.collider(this.dude, layer);
         this.physics.add.collider(this.laserGroup, layer,this.wallboom);
         map.setCollisionByProperty({ collides: true })
@@ -112,9 +124,11 @@ export default class GameScene extends Phaser.Scene {
     }
 
     redboom(one, two){
+        // this.score++;
+        console.log(this.score);
+
         two.destroy();
         one.destroy();
-        this.score++;
     }
     greenboom(one, two){
         two.destroy();
@@ -132,7 +146,7 @@ export default class GameScene extends Phaser.Scene {
         this.input.on('pointerdown', pointer=>{
             const angle = Phaser.Math.Angle.Between(this.dude.x, this.dude.y, pointer.worldX, pointer.worldY );
             // var angleDelta = Phaser.Math.Angle.Wrap(angle - this.dude.rotation)
-            console.log(Phaser.Math.RadToDeg(angle));
+            // console.log(Phaser.Math.RadToDeg(angle));
             
             this.shootLaser(180-Phaser.Math.RadToDeg(angle));
         })
@@ -143,7 +157,7 @@ export default class GameScene extends Phaser.Scene {
     }
     update(time, delta) {
 
-        this.scoreField.setText(`${this.score}`);
+        // this.scoreField.setText(`${this.score}`);
 
         // this.controls.update(delta);
         if (this.cursors.left.isDown) {

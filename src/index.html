@@ -3,13 +3,84 @@
 		<title>Phaser3 + Parceljs Template</title>
 	</head>
 	<style>
-		html, body{
-			margin: 0;
-			padding: 0;
-			overflow:hidden;
-		}
+	html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+	}
+
+	img {
+		width: 60px;
+	}
+	.health {
+		position: absolute;
+	}
+
+	.b1, .b2, .b3 {
+		width: 130px;
+	}
+
+	.button {
+		position: absolute;
+		left: 0;
+		bottom: 10px;
+		right: 0;
+		display: flex;
+		justify-content: center;
+	}
+	.button .cont{
+		padding: 40px;
+	}
+	.button .cont img{
+		width: 74px;
+	}
+	.cont{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: white;
+		font-size: 1rem;
+		font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+	}
+	.w-head{
+		position: absolute;
+		bottom: 5px;
+		left: 0;
+		right: 0;
+		text-align: center;
+		color: white;
+		font-size: 1rem;
+		font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+	}
 	</style>
 	<body>
+			<div class="game">
+			<!-- <script src="main.js"></script> -->
+		<div class="health">
+			<img class="h1" src="../public/heart.png" alt="">
+			<img class="h2" src="../public/heart.png" alt="">
+			<img class="h3" src="../public/heart.png" alt="">
+		</div>
+
+		 <div class="button">
+			 <div class="cont">
+				<div class="">A</div>
+				<img class="b1" src="../public/button1.png" alt="">
+			 </div>
+			 <div class="cont">
+				<div class="">S</div>
+				<img class="b1" src="../public/button2.png" alt="">
+			 </div>
+			 <div class="cont">
+				<div class="">D</div>
+				<img class="b1" src="../public/button3.png" alt="">
+			 </div>
+		</div>
+		<div class="w-head">
+			Press W to disable filters
+		</div>
 		<script src="main.js"></script>
+	
+		</div>
 	</body>
 </html>
