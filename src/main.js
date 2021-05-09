@@ -12,8 +12,8 @@ const config = {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 0 },
-			debug: true,
-			debugShowBody: true
+			// debug: true,
+			// debugShowBody: true
 		}
 	},
 	scene: [GameScene]
