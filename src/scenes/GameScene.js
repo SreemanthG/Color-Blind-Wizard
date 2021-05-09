@@ -1,6 +1,9 @@
 import Phaser from 'phaser'
 // const jsonMap = require('../../');
 // import title from './title.png';
+
+
+
 export default class GameScene extends Phaser.Scene {
     controls;
     cursors;
@@ -10,16 +13,37 @@ export default class GameScene extends Phaser.Scene {
     ROTATION_SPEED_DEGREES = Phaser.Math.RadToDeg(this.ROTATION_SPEED);
     TOLERANCE = 0.02 * this.ROTATION_SPEED;
     velocityFromRotation = Phaser.Physics.Arcade.ArcadePhysics.prototype.velocityFromRotation;
+    keyA;
+    keyS;
+    keyD;
+    keyW;
+    red;
+    blue;
+    green;
     constructor() {
         super('game-scene')
     }
-
     preload() {
         // console.log(json);
         // this.load.image('sky', 'title.png')
         this.load.image('dude', "/diamond1.png");
         this.load.image('dungTiles', "/dungeon.png");
         this.load.tilemapTiledJSON('map', "/dungeon.json");
+        this.load.image("red", "/red.png");
+        this.load.image("green", "/green.png");
+        this.load.image("blue", "/blue.png");
+        
+    }
+
+    applyColour(event) {
+        // Here you can see what's passed when Phaser triggers it.
+        console.log(arguments);
+    
+        if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.S) {
+            console.log('S was pressed');
+        } else if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.W) {
+            console.log('W was pressed');
+        }
     }
 
     create() {
@@ -33,7 +57,6 @@ export default class GameScene extends Phaser.Scene {
         map.setCollisionByProperty({ collides: true })
         this.cursors = this.input.keyboard.createCursorKeys();
 
-
         // var controlConfig = {
         //     camera: this.cameras.main,
         //     left: cursors.left,
@@ -46,8 +69,30 @@ export default class GameScene extends Phaser.Scene {
         // };
 
         // this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+        // this.input.keyboard.on('keydown_W', this.applyColour, this);
+        this.red = this.add.image(0,0,"red");
+        this.blue = this.add.image(0,0,"blue");
+        this.green = this.add.image(0,0,"green");
+        
+        this.red.alpha = 0;
+        this.blue.alpha = 0;
+        this.green.alpha = 0;
+        
+        this.red.setScale(10000);
+        this.blue.setScale(1000);
+        this.green.setScale(1000);
+        
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+
         this.cameras.main.startFollow(this.dude, true)
+        
     }
+
+    
+
     update(time, delta) {
         // this.controls.update(delta);
         if (this.cursors.left.isDown) {
@@ -69,9 +114,30 @@ export default class GameScene extends Phaser.Scene {
         else {
             this.dude.setVelocityY(0);
         }
-
+        if(this.keyA.isDown) {
+            this.blue.alpha = 0;
+            this.green.alpha = 0;
+            this.red.alpha = 0.5;
+            console.log('A key pressed')
+         } else if(this.keyS.isDown) {
+            this.blue.alpha = 0;
+            this.red.alpha = 0;
+            this.green.alpha = 0.5;
+            console.log('S key pressed')
+         } else if(this.keyD.isDown) {
+            this.red.alpha = 0;
+            this.green.alpha = 0;
+            this.blue.alpha = 0.5;
+            console.log('D key pressed')
+         } else if(this.keyW.isDown) {
+            this.red.alpha = 0;
+            this.green.alpha = 0;
+            this.blue.alpha = 0;
+            console.log('W key pressed')
+         }
         this.pointerMove(this.input.activePointer);
         // this.velocityFromRotation(this.dude.rotation, this.SPEED, this.dude.body.velocity);
+        
     }
 
     pointerMove(pointer) {
